@@ -1,11 +1,14 @@
-<h1>
-    welcome to de base o te site
-</h1>
-<p>
-    Nome: {{ $nome }}
-</p>
-<ul>
-    @foreach ($compras as $item)
-        <li>{{ $item }}</li>
-    @endforeach
-</ul>
+
+<x-layout>
+   <mains class="py-10">
+    <h1>Bem-vindo à página principal!</h1>
+    </mains>
+
+
+
+    @auth
+        <p>
+            bem vindo, {{ auth()->user()->name }}!
+        </p>
+    @endauth
+</x-layout>
