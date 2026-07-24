@@ -7,5 +7,30 @@
     <p>
         bem vindo, {{ auth()->user()->name }}!
     </p>
+
+    <H2 class="text-xl mt-4">
+        lista de produtos
+    </H2>
+    <ul>
+        @forelse($compra as $item) 
+        <li class="pl-4">
+            <div class="flex gap-2 item-center">
+            <p class="font-bold text-xl ">
+              -{{ $item->name }}
+            </p>
+            <p>
+                ({{$item->compralog->count()}})
+            </p>
+        </div>
+        </li>
+        @empty
+            <p>
+                sem compras para fazer
+            </p>
+            <a href="/compra/cadastrar">
+                 fazer uma lista de compra
+            </a>
+  @endforelse
+    </ul>
     </mains>
 </x-layout>

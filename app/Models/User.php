@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use App\Models\compra;
-use Illuminate\Database\Eloquente\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use App\Models\compralog;
 
 

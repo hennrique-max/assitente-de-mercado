@@ -8,13 +8,15 @@ class gbrain extends Controller
     private $compras = ['alho', 'cebolinha', 'tomate', 'batata'];
     public function index()
     {
-        $name='fulano';
-        $compras=['arroz', 'feijão', 'macarrão', 'carne'];
-
-        return view('base', compact('name', 'compras'));
+        
+        return view('base');
     }
    public function dashboard() {
-        return view('dashboard');
+        $compra = auth()->user()->compra;
+   
+   
+        return view('dashboard', compact('compra'));
+
     }
 
     }
