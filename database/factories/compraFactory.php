@@ -17,6 +17,7 @@ class compraFactory extends Factory
      */
     public function definition(): array
     {
+        
         $compra = [
             'arroz',
             'feijao', 
@@ -27,6 +28,7 @@ class compraFactory extends Factory
         return [
             'user_id' => 1,
             'name' => $this->faker->randomElement($compra),
+            'number' => $this->faker->randomNumberBetween(1,9)
         ];
     }
 }

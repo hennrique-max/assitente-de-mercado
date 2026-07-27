@@ -5,6 +5,8 @@ use App\Http\Requests\comprarequest;
 use App\Models\compra;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
+use App\Models\compralog;
+use Illuminate\Support\Facades\Auth;
 
 class compracontroller extends Controller
 {
@@ -25,7 +27,9 @@ class compracontroller extends Controller
     {
         $validated = $request->validated();
 
-        auth()->user()->compra()->create($validated);
+
+        
+        Auth::user()->compra()->create($validated);
 
         return redirect()
             ->route('site.dashboard')
@@ -61,7 +65,7 @@ class compracontroller extends Controller
      */
     public function destroy(compra $compra)
     {
-        if($compra->user_id != auth()->user()->id){
+        if($compra->user_id != Auth::user->id){
             abort(403,'não mexe nu que não é seu!!');
         }
 
@@ -70,5 +74,35 @@ class compracontroller extends Controller
         return redirect()
         ->route('site.dashboard')
         ->with('success','compra removida com sucesso');
+    }
+
+    public function toggle(compra $compra)
+    {
+    if($compra->user_id != Auth::user->id){
+            abort(403,'não mexe nu que não é seu!!');
+        }
+          $today = \Carbon\Carbon::today()->toDateString();
+
+        $log=compralog::query()
+        ->where('habit_id', $compra->id)
+        ->where('completed_at', $today)
+        ->first();
+
+        if($log){
+            $log->delete();
+        }
+        else{
+            compralog::create([
+                'habit_id' => $compra->id,
+                'completed_at' => $today,
+            ]);
+
+        }
+        return redirect()
+            ->route('compra.index');
+    }
+    public function compedit()
+    {
+        return (view(compra.edit));
     }
 }

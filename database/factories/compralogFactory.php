@@ -19,6 +19,7 @@ class compralogFactory extends Factory
     {
         return [
             'user_id' => 1,
+            
             'compra_id' => compra::query()->inRandomOrder()->first()->id,
             'completed_at' => $this->faker->dateTimeBetween('-6 days', 'now'),
         ];

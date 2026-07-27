@@ -1,57 +1,77 @@
 <x-layout>
-   <mains class="py-10">
+    <main class="py-10">
+        <x-navbar/>
     <h1 class="text-3xl font-bold mb-4 text-center">
-        dashboard
-    </h1>
+            dashboard
+        </h1>
 
-   <a href="{{route('compra.create')}}" clas="border-2 border-green-100">
-    registra na lista de compra
-   </a>
+        <a href="{{ route('compra.create') }}" class="border-2 border-green-100 p-2 inline-block mb-4">
+            registrar na lista de compra
+        </a>
 
-   @session('sucess')
-   <div class="flex">
+        @session('sucess')
+            <div class="flex">
+                <p>
+                    {{ session('sucess') }}
+                </p>
+            </div>
+        @endsession
+
         <p>
-        {{session('sucess')}}
+            bem vindo, {{ auth()->user()->name }}!
         </p>
-    </div>
-    @endsession
-    <p>
-        bem vindo, {{ auth()->user()->name }}!
-    </p>
 
-    <H2 class="text-xl mt-4">
-        lista de produtos
-    </H2>
-    <ul>
-        @forelse($compra as $item) 
-        <li class="pl-4">
-            <div class="flex gap-2 item-center">
-            <p class="font-bold text-xl ">
-              {{ $item->number}}-{{ $item->name }}
-              
-              
-            </p>
-            <p>
-                ({{$item->compralog->count()}})
-            </p>
-            <form action="{{route('compra.destroy', $item)}}" method="POST">
-                
-                @csrf
-                @method('DELETE')
-            <button class="bg-red-500 tex-white p-1 hover:opacity-50">
-            <x-icons.trash/>   
-            </button>
-        </form>
-        </div>
-        </li>
-        @empty
-            <p>
-                sem compras para fazer
-            </p>
-            <a href="/compra/cadastrar" class="text-blue-500 hover:text-blue-700">
-                 fazer uma lista de compra
-            </a>
-  @endforelse
-    </ul>
-    </mains>
+        <h2 class="text-xl mt-4 mb-2">
+            lista de produtos
+        </h2>
+
+        <ul>
+            @forelse($compra as $item) 
+                @php
+                    $wasCompletedToday = $item->compralog
+                        ->where('user_id', auth()->id())
+                        ->where('completed_at', \Carbon\Carbon::today()->toDateString())
+                        ->isNotEmpty();
+                @endphp
+
+                <li class="compra-shadow-lg flex items-center justify-between mb-2 p-2 border rounded">
+                    <a href="{{route('compra.index')}}">lista</a>
+                   
+                    <form action="{{ route('compra.toggle', $item->id) }}" method="POST" id="form-{{ $item->id }}" class="flex gap-2 items-center">
+                        @csrf
+
+                        <input 
+                            type="checkbox" 
+                            class="w-5 h-5 cursor-pointer"
+                            {{ $wasCompletedToday ? 'checked' : '' }} 
+                            onchange="document.getElementById('form-{{ $item->id }}').submit()"
+                        />
+                        
+                        <p class="font-bold text-xl">
+                            {{ $item->number ?? '' }} - {{ $item->name }}
+                        </p>
+                        
+                        <p class="text-gray-500">
+                            ({{ $item->compralog->count() }})
+                        </p>
+                    </form>
+
+                    
+                    <form action="{{ route('compra.destroy', $item) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        
+                        <button class="bg-red-500 text-white p-1 hover:opacity-50 rounded">
+                            <x-icons.trash/>   
+                        </button>
+                    </form>
+
+                </li>
+            @empty
+                <p>
+                    sem compras para fazer
+                </p>
+            @endforelse
+        </ul>
+    </main>
 </x-layout>
