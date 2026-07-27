@@ -20,6 +20,8 @@ return new class extends Migration
             $table
                 ->string('name')
                 ->unique();
+            $table
+                ->integer('number');
             $table->timestamps();
         });
     }

@@ -14,8 +14,24 @@
              type="text" 
              name="name" 
              placeholder="ex: leite" 
-             class="w-full px-3 py-2 border rounded @error('email') border-red-500 @enderror"> 
-            @error('email')
+             class="w-full px-3 py-2 border rounded @error('name') border-red-500 @enderror"> 
+            @error('name')
+             <p class="flex text-red-500 text-xs mt-1">
+                {{ $message }}
+             </p>
+            @enderror
+            </div>
+            <div>
+
+            <label for="number">
+                nome do produto
+            </label>
+             <input 
+             type="number" 
+             name="number" 
+             placeholder="1" 
+             class="w-full px-3 py-2 border rounded @error('number') border-red-500 @enderror"> 
+            @error('number')
              <p class="flex text-red-500 text-xs mt-1">
                 {{ $message }}
              </p>

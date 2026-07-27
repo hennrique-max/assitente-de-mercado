@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\Requests\comprarequest;
 use App\Models\compra;
 use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
@@ -21,9 +21,15 @@ class compracontroller extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(comprarequest $request)
     {
-        dd($request);
+        $validated = $request->validated();
+
+        auth()->user()->compra()->create($validated);
+
+        return redirect()
+            ->route('site.dashboard')
+            ->with('success','compra registrada na sua lista');
     }
 
     /**
@@ -55,6 +61,14 @@ class compracontroller extends Controller
      */
     public function destroy(compra $compra)
     {
-        //
+        if($compra->user_id != auth()->user()->id){
+            abort(403,'não mexe nu que não é seu!!');
+        }
+
+        $compra->delete();
+
+        return redirect()
+        ->route('site.dashboard')
+        ->with('success','compra removida com sucesso');
     }
 }

@@ -14,6 +14,7 @@ class compra extends Model
 
     protected $fillable = [
         'name',
+        'number',
         'user_id',
         
     ];

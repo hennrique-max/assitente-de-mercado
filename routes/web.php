@@ -4,6 +4,8 @@ use App\Http\Controllers\sitecontroller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CadastroController;
 use App\Http\Controllers\compracontroller;
+use App\Http\Controllers\gbrain;
+use App\Http\Requests\comprarequest;
 
 Route::get('/', [gbrain::class, 'index'])->name('site.index');
 
@@ -20,7 +22,8 @@ Route::middleware('auth')-> group(function () {
     Route::post('/logout', [LoginController::class, 'logout'])->name('site.logout');
 
     //compra
-    Route::get('/dashboard/compra/create', [compracontroller::class,'create'])->name('compra.create');
-    Route::POST('/dashbord/compra', [compracontroller::class,'sotore'])->name('compra.store');
+   
+    Route::resource('dashboard/compra', compracontroller::class)->except('show');
 
     });
+
