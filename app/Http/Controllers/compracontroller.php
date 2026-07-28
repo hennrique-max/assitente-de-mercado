@@ -7,14 +7,19 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Models\compralog;
 use Illuminate\Support\Facades\Auth;
-
+use resources\views\edit\editcompra;
 class compracontroller extends Controller
 {
   
 
-    /**
-     * Show the form for creating a new resource.
-     */
+    
+
+    public function index(): view
+    {
+        $compra = auth()->user()->compra;
+        return view('dashboard', compact('compra'));  
+    }
+
     public function create():view
     {
         return view('create.compracreate');
@@ -101,8 +106,9 @@ class compracontroller extends Controller
         return redirect()
             ->route('compra.index');
     }
-    public function compedit()
+    public function editcompra()
     {
-        return (view(compra.edit));
+        $compra = auth()->user()->compra;
+        return view('edit.editcompra', compact('compra'));
     }
 }

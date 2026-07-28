@@ -23,9 +23,9 @@ Route::middleware('auth')-> group(function () {
 
     //compra
    
-    Route::resource('/dashboard/compra', compracontroller::class)->except('show');
-    Route::POST('/dashboard/compra/{compra}/toggle', [compracontroller::class, 'toggle'])->name('compra.toggle');
-    Route::get('/dashboard/compra/configurar', [compracontroller::class, 'compedit'])->name('compra.edit');
+    Route::resource('/dashboard/compra', compracontroller::class)->except(['show','edit']);
+    Route::post('/dashboard/compra/{compra}/toggle', [compracontroller::class, 'toggle'])->name('compra.toggle');
+    Route::get('/dashboard/compra/configurar', [compracontroller::class, 'editcompra'])->name('compra.edit');
 
 
     });
