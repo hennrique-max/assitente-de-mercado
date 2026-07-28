@@ -10,7 +10,7 @@ class compralog extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'habit_id',
+        'compra_id',
         'user_id',
         'completed_at',
         

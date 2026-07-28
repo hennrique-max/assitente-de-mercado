@@ -23,7 +23,9 @@
 
         <ul>
             @forelse($compra as $item) 
-                @php
+
+            
+                @php 
                     $wasCompletedToday = $item->compralog
                         ->where('user_id', auth()->id())
                         ->where('completed_at', \Carbon\Carbon::today()->toDateString())
@@ -33,12 +35,16 @@
                 <li class="compra-shadow-lg flex items-center justify-between mb-2 p-2 border rounded">
                    
                    
-                    <form action="{{ route('compra.toggle', $item->id) }}" method="POST" id="form-{{ $item->id }}" class="flex gap-2 items-center">
+                    <form action="{{ route('compra.toggle', $item->id) }}"
+                     method="POST" 
+                     id="form-{{ $item->id }}" 
+                    class="flex gap-2 items-center">
                         @csrf
 
                         <input 
                             type="checkbox" 
-                            class="w-5 h-5 cursor-pointer"
+                            class="w-5 h-5 cursor-pointer" 
+                            {{$item->is_completed ? 'checked' : ''}}
                             {{ $wasCompletedToday ? 'checked' : '' }} 
                             onchange="document.getElementById('form-{{ $item->id }}').submit()"
                         />
@@ -55,7 +61,7 @@
 
                 </li>
             @empty
-                <p>
+                <p> 
                     sem compras para fazer
                 </p>
             @endforelse

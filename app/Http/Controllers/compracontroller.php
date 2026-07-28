@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Models\compralog;
 use Illuminate\Support\Facades\Auth;
-use resources\views\edit\editcompra;
+
 class compracontroller extends Controller
 {
   
@@ -70,7 +70,7 @@ class compracontroller extends Controller
      */
     public function destroy(compra $compra)
     {
-        if($compra->user_id != Auth::user->id){
+        if($compra->user_id != Auth::user()->id){
             abort(403,'não mexe nu que não é seu!!');
         }
 
@@ -83,22 +83,22 @@ class compracontroller extends Controller
 
     public function toggle(compra $compra)
     {
-    if($compra->user_id != Auth::user->id){
+    if($compra->user_id != Auth::user()->id){
             abort(403,'não mexe nu que não é seu!!');
         }
           $today = \Carbon\Carbon::today()->toDateString();
 
         $log=compralog::query()
-        ->where('habit_id', $compra->id)
+        ->where('compra_id', $compra->id)
         ->where('completed_at', $today)
         ->first();
 
         if($log){
             $log->delete();
-        }
-        else{
+        }else{
             compralog::create([
-                'habit_id' => $compra->id,
+                'user_id' => Auth::user()->id,
+                'compra_id' => $compra->id,
                 'completed_at' => $today,
             ]);
 
@@ -108,7 +108,7 @@ class compracontroller extends Controller
     }
     public function editcompra()
     {
-        $compra = auth()->user()->compra;
+        $compra = Auth::user()->compra;
         return view('edit.editcompra', compact('compra'));
     }
 }
