@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Contracts\View\View;
 use App\Models\compralog;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class compracontroller extends Controller
 {
@@ -110,7 +111,9 @@ class compracontroller extends Controller
 
         }
         return redirect()
-            ->route('compra.index');
+            ->route('compra.index')
+            ->with('success','compra feita');
+
     }
     public function editcompra()
     {

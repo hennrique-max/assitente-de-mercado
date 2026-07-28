@@ -37,7 +37,7 @@ class comprapolicy
      */
     public function update(User $user, compra $compra): bool
     {
-        return $user->id == $habit->user_id;
+        return $user->id == $compra->user_id;
     }
 
     /**
@@ -45,16 +45,16 @@ class comprapolicy
      */
     public function delete(User $user, compra $compra): bool
     {
-        return $user->id == $habit->user_id;
+        return $user->id == $compra->user_id;
     }
 
      public function toggle(User $user, compra $compra): bool
     {
-        return $user->id == $habit->user_id;
+        return $user->id == $compra->user_id;
     }
 
      public function edit(User $user, compra $compra): bool
     {
-        return $user->id == $habit->user_id;
+        return $user->id == $compra->user_id;
     }
 }

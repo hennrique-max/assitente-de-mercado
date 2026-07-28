@@ -5,14 +5,6 @@
             dashboard
         </h1>
 
-        @session('sucess')
-            <div class="flex">
-                <p>
-                    {{ session('sucess') }}
-                </p>
-            </div>
-        @endsession
-
         <p>
             bem vindo, {{ auth()->user()->name }}!
         </p>
