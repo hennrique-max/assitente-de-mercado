@@ -29,4 +29,11 @@ class compra extends Model
         return $this->hasMany(compralog::class);
     }
 
+     public function wasCompletedToday(): bool
+    {
+                return $this->compralog
+                        ->where('completed_at', \Carbon\Carbon::today()->toDateString())
+                        ->isNotEmpty();
+    }
+
     }

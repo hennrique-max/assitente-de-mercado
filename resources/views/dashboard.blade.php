@@ -25,13 +25,7 @@
             @forelse($compra as $item) 
 
             
-                @php 
-                    $wasCompletedToday = $item->compralog
-                        ->where('user_id', auth()->id())
-                        ->where('completed_at', \Carbon\Carbon::today()->toDateString())
-                        ->isNotEmpty();
-                @endphp
-
+            
                 <li class="compra-shadow-lg flex items-center justify-between mb-2 p-2 border rounded">
                    
                    
@@ -45,7 +39,7 @@
                             type="checkbox" 
                             class="w-5 h-5 cursor-pointer" 
                             {{$item->is_completed ? 'checked' : ''}}
-                            {{ $wasCompletedToday ? 'checked' : '' }} 
+                            {{ $item->wasCompletedToday() ? 'checked' : '' }} 
                             onchange="document.getElementById('form-{{ $item->id }}').submit()"
                         />
                         

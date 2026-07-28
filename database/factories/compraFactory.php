@@ -28,7 +28,7 @@ class compraFactory extends Factory
         return [
             'user_id' => 1,
             'name' => $this->faker->randomElement($compra),
-            'number' => $this->faker->randomNumberBetween(1,9)
+            'number' => $this->faker->NumberBetween(1,9)
         ];
     }
 }

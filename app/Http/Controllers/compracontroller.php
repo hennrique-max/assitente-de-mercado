@@ -11,12 +11,14 @@ use Illuminate\Support\Facades\Auth;
 class compracontroller extends Controller
 {
   
-
+   use AuthorizesRequests;
     
 
     public function index(): view
     {
-        $compra = auth()->user()->compra;
+        $compra = auth()->user()->compra()->
+        with('compralog')
+        ->get();
         return view('dashboard', compact('compra'));  
     }
 
@@ -54,7 +56,7 @@ class compracontroller extends Controller
      */
     public function edit(compra $compra)
     {
-        //
+       $this->authorize('update',$compra);
     }
 
     /**
@@ -62,7 +64,13 @@ class compracontroller extends Controller
      */
     public function update(Request $request, compra $compra)
     {
-        //
+        $this->authorize('update',$compra);
+
+        $compra->update($request->all());
+
+        return redirect()
+        ->route('compra.index')
+        ->with('success', 'compra modificada com sucesso!');
     }
 
     /**
@@ -70,9 +78,7 @@ class compracontroller extends Controller
      */
     public function destroy(compra $compra)
     {
-        if($compra->user_id != Auth::user()->id){
-            abort(403,'não mexe nu que não é seu!!');
-        }
+        $this->authorize('delete',$compra);
 
         $compra->delete();
 
@@ -83,9 +89,9 @@ class compracontroller extends Controller
 
     public function toggle(compra $compra)
     {
-    if($compra->user_id != Auth::user()->id){
-            abort(403,'não mexe nu que não é seu!!');
-        }
+         $this->authorize('toggle',$compra);
+
+
           $today = \Carbon\Carbon::today()->toDateString();
 
         $log=compralog::query()
@@ -111,4 +117,6 @@ class compracontroller extends Controller
         $compra = Auth::user()->compra;
         return view('edit.editcompra', compact('compra'));
     }
+
+   
 }
